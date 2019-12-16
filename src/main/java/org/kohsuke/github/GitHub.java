@@ -1078,6 +1078,27 @@ public class GitHub {
     }
 
     /**
+     * List repositories that an installation can access.
+     * <p>
+     * You must use an installation access token to access this endpoint.
+     *
+     * @return the paged iterable
+     *
+     * @throws IOException
+     *             on error
+     * @see <a href="https://developer.github.com/v3/apps/installations/#list-repositories">List repositories</a>
+     * @see <a href="http://github-api.kohsuke.org/githubappappinsttokenauth.html">Authenticating as an installation</a>
+     */
+    @Preview
+    @Deprecated
+    public PagedIterable<GHAppInstallationRepository> listInstallationRepositories() throws IOException {
+        return retrieve().withPreview(MACHINE_MAN)
+                .asPagedIterable("/installation/repositories",
+                        GHAppInstallationRepository[].class,
+                        item -> item.wrapUp(this));
+    }
+
+    /**
      * Ensures that the credential is valid.
      *
      * @return the boolean
